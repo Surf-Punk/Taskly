@@ -12,7 +12,6 @@ import {
     Box,
     Heading,
     Center,
-    Image,
     Input,
     Stack,
     FormControl,
@@ -50,24 +49,23 @@ export default function Profile() {
                     values.avatar = newUrl;
                 }
             }
-                const res = await fetch(`${API_BASE_URL}/users/update/${user._id}`, {
-                    method: 'PATCH',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(values),
-                });
-                const data = await res.json();
+            const res = await fetch(`${API_BASE_URL}/users/update/${user._id}`, {
+                method: 'PATCH',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
+            const data = await res.json();
 
-                if (res.status === 200) {
-                    resetField('password');
-                    updateUser(data);
-                    toast.success('Profile Updated');
-                } else {
-                    toast.error(data.message);
-                }
-            
+            if (res.status === 200) {
+                resetField('password');
+                updateUser(data);
+                toast.success('Profile Updated');
+            } else {
+                toast.error(data.message);
+            }
         } catch (error) {
             toast.error('Profile Update Error: ' + error.message);
         }
@@ -142,6 +140,9 @@ export default function Profile() {
             >
                 Your Profile
             </Heading>
+            <Text textAlign="center" color="gray.600" mb="5">
+                Registered on: {new Date(user.registrationDate).toLocaleDateString()}
+            </Text>
             <form onSubmit={handleSubmit(doSubmit)}>
                 <Stack gap='4'>
                     <Center>
